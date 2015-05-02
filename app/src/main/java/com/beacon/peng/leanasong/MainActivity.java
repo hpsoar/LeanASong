@@ -26,12 +26,8 @@ public class MainActivity extends ActionBarActivity {
         mPlayer = MediaPlayer.create(this, R.raw.hua_nuo_suo);
         mPlayer.setLooping(false);
 
-        // We need to link the visualizer view to the media player so that
-        // it displays something
-        mVisualizerView = new VisualizerView(this);
-        //mVisualizerView.setBackgroundColor(Color.BLUE);
+        mVisualizerView = (VisualizerView)findViewById(R.id.visualizer_view);
         mVisualizerView.link(mPlayer);
-        setContentView(mVisualizerView);
 
         mVisualizerView.setEnabled(true);
         mPlayer.start();
