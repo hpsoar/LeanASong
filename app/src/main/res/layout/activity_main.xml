@@ -12,40 +12,45 @@
             android:id="@+id/visualizer_view"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-        <Button
-            android:id="@+id/btn_A"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="A"
-            android:enabled="false"/>
-        <Button
-            android:id="@+id/btn_B"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="B"
-            android:enabled="false"/>
-        </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp">
-        <Button
-            android:id="@+id/play_previous_clip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Play Previous Clip"
-            android:enabled="false"/>
-        <Button
-            android:id="@+id/play_next_clip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="Play Next Clip"
-            android:enabled="false"/>
-        </RelativeLayout>
+        <SeekBar
+            android:id="@+id/play_back_progress"
+            android:layout_width="match_parent"
+            android:layout_height="45dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <Button
+                android:id="@+id/btn_seek_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"/>
+            <Button
+                android:id="@+id/btn_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Play"/>
+            <Button
+                android:id="@+id/btn_seek_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forward"/>
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+            <Button
+                android:id="@+id/btn_A"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="A"
+                android:enabled="false"/>
+            <Button
+                android:id="@+id/btn_B"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="B"
+                android:enabled="false"/>
+        </LinearLayout>
         <ListView
             android:id="@+id/clip_list_view"
             android:layout_width="match_parent"
