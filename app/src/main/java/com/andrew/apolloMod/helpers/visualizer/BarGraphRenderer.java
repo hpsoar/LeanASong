@@ -65,7 +65,6 @@ public class BarGraphRenderer extends Renderer
 			byte rfk = data.bytes[ (10 * i)];
 			byte ifk = data.bytes[ (10 * i + 1)];
 			float magnitude = (rfk * rfk + ifk * ifk);
-          Log.d(TAG, "" + rfk + ", " + ifk + ", " + magnitude);
           int dbValue = (int) (10 * Math.log10(magnitude));
 			rfk = data.bytes[ (10 * i + 2)];
 			ifk = data.bytes[ (10 * i + 3)];

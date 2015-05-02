@@ -8,6 +8,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.andrew.apolloMod.ui.widgets.VisualizerView;
 
+import java.io.IOException;
+
 
 public class MainActivity extends ActionBarActivity {
     private MediaPlayer mPlayer;
@@ -23,7 +25,6 @@ public class MainActivity extends ActionBarActivity {
     private void init() {
         mPlayer = MediaPlayer.create(this, R.raw.hua_nuo_suo);
         mPlayer.setLooping(false);
-        mPlayer.start();
 
         // We need to link the visualizer view to the media player so that
         // it displays something
@@ -31,6 +32,16 @@ public class MainActivity extends ActionBarActivity {
         //mVisualizerView.setBackgroundColor(Color.BLUE);
         mVisualizerView.link(mPlayer);
         setContentView(mVisualizerView);
+
+        mVisualizerView.setEnabled(true);
+        mPlayer.start();
+
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mVisualizerView.setEnabled(false);
+            }
+        });
     }
 
     @Override
@@ -49,6 +60,14 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if (id == R.id.action_play) {
+            if (mPlayer.isPlaying()) {
+                mPlayer.pause();
+                mPlayer.seekTo(0);
+            }
+            mVisualizerView.setEnabled(true);
+            mPlayer.start();
         }
 
         return super.onOptionsItemSelected(item);

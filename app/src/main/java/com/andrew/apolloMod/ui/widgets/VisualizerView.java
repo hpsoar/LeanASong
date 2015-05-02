@@ -29,6 +29,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class VisualizerView extends View {
     private final static String TAG = "VisualizerView";
 
@@ -42,6 +46,8 @@ public class VisualizerView extends View {
   private Rect mRect = new Rect();
 
     private Visualizer mVisualizer;
+
+    private ByteArrayOutputStream mBAOS = new ByteArrayOutputStream();
 
   private Renderer mRenderer;
   String type = null;
@@ -144,7 +150,7 @@ public class VisualizerView extends View {
      * Links the visualizer to a player
      * @param player - MediaPlayer instance to link to
      */
-    public void link(MediaPlayer player)
+    public void link(final MediaPlayer player)
     {
         if(player == null)
         {
@@ -157,39 +163,36 @@ public class VisualizerView extends View {
             mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
 
             // Pass through Visualizer data to VisualizerView
-            Visualizer.OnDataCaptureListener captureListener = new Visualizer.OnDataCaptureListener()
-            {
+            Visualizer.OnDataCaptureListener captureListener = new Visualizer.OnDataCaptureListener() {
                 @Override
                 public void onWaveFormDataCapture(Visualizer visualizer, byte[] bytes,
-                                                  int samplingRate)
-                {
+                                                  int samplingRate) {
                     updateVisualizer(bytes);
                 }
 
                 @Override
                 public void onFftDataCapture(Visualizer visualizer, byte[] bytes,
-                                             int samplingRate)
-                {
+                                             int samplingRate)  {
                     updateVisualizerFFT(bytes);
+                    try {
+                        mBAOS.write(bytes);
+                        Log.d(TAG, "" + mBAOS.toByteArray().length + ", " + player.getCurrentPosition());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             };
 
             mVisualizer.setDataCaptureListener(captureListener,
                     Visualizer.getMaxCaptureRate() / 2, true, true);
-
-            // Enabled Visualizer and disable when we're done with the stream
-            mVisualizer.setEnabled(true);
-            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener()
-            {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer)
-                {
-                    mVisualizer.setEnabled(false);
-                }
-            });
         }
         catch (Exception ex) {
             Log.d(TAG, ex.getMessage());
         }
+    }
+
+    public void setEnabled(boolean enabled) {
+        mBAOS.reset();
+        mVisualizer.setEnabled(enabled);
     }
 }
